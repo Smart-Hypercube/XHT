@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>XHT-ETH 兑换</title>
+<script type="text/javascript" src="../static/web3.min.js"></script>
+<script type="text/javascript" src="../static/vue.min.js"></script>
+<script type="text/javascript" src="app.js"></script>
+</head>
+<body>
+<div id="app">
+    <p>
+        <strong v-if="chain_id !== 1">当前在测试链上<br></strong>
+        地址：{{account}}<br>
+        余额：{{v_xht(my_xht)}}、{{v_eth(my_eth)}}
+    </p>
+    <hr>
+    <p>当前买入价：1 XHT = {{v_eth(buy_price * 1e4)}}（匀速上升中）</p>
+    <p>
+        你有 {{v_eth(my_eth)}}<br>
+        智能合约当前存储了 {{v_xht(exchange_xht)}}（约 {{v_eth(exchange_xht * buy_price)}}）<br>
+        因此，当前买入不能超过 {{v_eth(Math.min(my_eth, exchange_xht * buy_price))}}
+    </p>
+    <p>花费 <input type="text" v-model="buy_eth_input"> ETH 购买大约 {{v_xht(buy_eth / buy_price)}} <button @click="buy()">确认</button></p>
+    <hr>
+    <p>当前卖出价：1 XHT = {{v_eth(sell_price * 1e4)}}（匀速上升中）</p>
+    <p>
+        你有 {{v_xht(my_xht)}}<br>
+        智能合约当前存储了 {{v_eth(exchange_eth)}}（现在约 {{v_xht(exchange_eth / sell_price)}}，30 分钟后约 {{v_xht(exchange_eth / sell_price_future)}}）<br>
+        你向智能合约授权的扣款额度还有 {{v_xht(allowance)}}，更新到 <input type="text" v-model="new_allowance_input"> XHT <button @click="approve()">确认</button><br>
+        因此，当前卖出不能超过 {{v_xht(Math.min(my_xht, exchange_eth / sell_price_future, allowance))}}
+    </p>
+    <p>卖出 <input type="text" v-model="sell_xht_input"> XHT 获得大约 {{v_eth(sell_xht * sell_price)}} <button @click="sell()">确认</button></p>
+    <hr>
+    <p>
+        声明：本页面仅为方便而编写，其与以下智能合约皆依现状（AS IS）提供，你应该在理解它们原理的前提下使用，并对任何后果负责。<br>
+        Hypercube's Token (XHT)：{{XHT_address}}<br>
+        Exchange：{{Exchange_address}}
+    </p>
+</div>
+</body>
+</html>
