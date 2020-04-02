@@ -24,7 +24,6 @@
         return;
     }
     window.ethereum.on('chainChanged', () => {location.reload()});
-    window.ethereum.on('networkChanged', () => {location.reload()});
     window.ethereum.on('accountsChanged', () => {location.reload()});
     const web3 = new Web3(window.ethereum);
     const chain_id = await web3.eth.getChainId();
